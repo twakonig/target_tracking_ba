@@ -1,0 +1,8 @@
+prefix=/usr/local
+
+Name: target_tracking
+Description: Description of target_tracking
+Version: 0.0.0
+Cflags: -I${prefix}/include
+Libs: -L${prefix}/lib -ltarget_tracking_core
+Requires: roscpp roslib cv_bridge image_transport sensor_msgs geometry_msgs message_generation

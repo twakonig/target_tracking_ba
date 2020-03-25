@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/theresa/catkin_vi/src/target_tracking/cmake-build-debug/devel/setup.sh
