@@ -68,12 +68,18 @@ include_directories(
 )
 
 ## Declare a cpp library
-add_library(${PROJECT_NAME}_core
-        src/FeatureTriangulation.cpp include/target_tracking/FeatureTriangulation.hpp)
+#add_library(${PROJECT_NAME}_core
+#        src/FeatureTriangulation.cpp include/target_tracking/FeatureTriangulation.hpp)
 
 
-add_executable(FeatureTriangulation src/FeatureTriangulation.cpp)
+#add_executable(FeatureTriangulation src/FeatureTriangulation.cpp src/feature_triangulation_node.cpp)
+#target_link_libraries(FeatureTriangulation ${OpenCV_LIBRARIES} ${catkin_LIBRARIES})
+add_library(FeatureTriangulation
+        src/FeatureTriangulation.cpp)
 target_link_libraries(FeatureTriangulation ${OpenCV_LIBRARIES} ${catkin_LIBRARIES})
+
+add_executable(feature_triangulation_node src/feature_triangulation_node.cpp)
+target_link_libraries(feature_triangulation_node ${OpenCV_LIBRARIES} ${catkin_LIBRARIES})
 
 #add_executable(target_tracking_node src/target_tracking_node.cpp)
 #target_link_libraries(target_tracking_node ${OpenCV_LIBRARIES} ${catkin_LIBRARIES})

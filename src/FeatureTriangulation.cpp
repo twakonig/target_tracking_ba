@@ -2,51 +2,56 @@
 
 #include <iostream>
 #include <ros/ros.h>
-//#include <node_handle.h>
 #include <opencv2/opencv.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <cv_bridge/cv_bridge.h>
-#include <sensor_msgs/CameraInfo.h>             //for sensor_msgs
-#include <image_transport/image_transport.h>    //for ImageConstPtr&
+//#include <sensor_msgs/CameraInfo.h>             //for sensor_msgs
+//#include <image_transport/image_transport.h>    //for ImageConstPtr&
+#include <string>
 
 
 using namespace cv;
 
-//namespace target_tracking {
+namespace target_tracking {
 
-FeatureTriangulation::FeatureTriangulation()
+//constructor initialization
+FeatureTriangulation::FeatureTriangulation(ros::NodeHandle& nodeHandle)
+    : nodeHandle_(nodeHandle)                                                //initializing nodeHandle
 {
+    /*          //PRODUCES ERROR, LEAVE AS COMMENT
+     *
+    if (!readParameters()) {
+        ROS_ERROR("Could not read parameters.");
+        ros::requestShutdown();
+    }
+    */
+
+    subscriber_ = nodeHandle_.subscribe("/cam0/image_rect", 5,
+                                        &FeatureTriangulation::imageCallback, this);
+    ROS_INFO("Successfully launched node.");
 }
 
+//destructor
 FeatureTriangulation::~FeatureTriangulation()
 {
 }
+
+
+/*              //UNNECESSARY FOR THE MOMENT
+
+bool FeatureTriangulation::readParameters()
+{
+    if (!nodeHandle_.getParam("/cam0/image_rect", subscriberTopic_)) return false;
+    return true;
+}
+*/
+
 
 void FeatureTriangulation::imageCallback(const sensor_msgs::ImageConstPtr& msg) {
     ROS_INFO("Function worked");
 }
 
-//} /* namespace */
 
 
-
-    int main(int argc, char **argv)
-    {
-        //initializing the node
-        ros::init(argc, argv, "feature_triangulation");     //node name: "feature_triangulation"
-        //starting the node
-        ros::NodeHandle nh;     //calls ros::start()
-
-        //creating an object of my class
-        FeatureTriangulation object;
-
-        //subscribe to /cam0/image_rect topic
-        ros::Subscriber sub = nh.subscribe("/cam0/image_rect", 1000, &FeatureTriangulation::imageCallback, &object);
-
-        //calls message callbacks, exits once ros::ok() returns false
-        ros::spin();
-
-        return 0;
-    }
-
+} /* namespace */
 
